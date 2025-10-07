@@ -97,7 +97,7 @@ export default function LoginPage() {
 
           <div className="text-center mt-4">
             <a
-              href="#"
+              href="/auth/forgot-password"
               className="text-sm text-indigo-500 hover:underline hover:text-indigo-600 transition-colors"
             >
               Quên mật khẩu?

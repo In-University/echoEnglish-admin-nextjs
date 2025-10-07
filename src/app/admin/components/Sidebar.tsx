@@ -16,7 +16,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
 
   return (
     <aside className="w-60 bg-white shadow-md border-r flex flex-col">
-      <div className="p-4 text-xl font-bold text-blue-600 border-b"># DASHMIN</div>
+      <div className="p-4 text-xl font-bold text-blue-600 border-b">Echo english</div>
       <nav className="flex-1 p-2 space-y-1">
         {tabs.map((tab) => (
           <button
