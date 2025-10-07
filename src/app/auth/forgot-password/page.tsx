@@ -3,26 +3,57 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Send OTP to:", email);
-    // TODO: Gọi API gửi OTP
+    setError("");
+    setLoading(true);
+
+    try {
+      // TODO: Gọi API gửi OTP
+      // await sendOtp(email);
+      console.log("Send OTP to:", email);
+      router.push(`/auth/verify-otp?email=${encodeURIComponent(email)}`);
+    } catch (err) {
+      setError("Failed to send OTP. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="w-full max-w-sm bg-white shadow-md rounded-2xl p-6">
-        <h1 className="text-2xl font-semibold text-center mb-6">
-          Quên mật khẩu
-        </h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
+      {/* Hiệu ứng background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute w-[500px] h-[500px] bg-indigo-200/30 rounded-full blur-3xl top-10 left-10"></div>
+        <div className="absolute w-[600px] h-[600px] bg-purple-200/30 rounded-full blur-3xl bottom-10 right-10"></div>
+      </div>
+
+      {/* Glass form */}
+      <div className="relative z-10 bg-white/70 backdrop-blur-xl border border-white/40 shadow-2xl rounded-3xl p-10 w-[380px]">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-800 tracking-tight">
+            Forgot Password 🔐
+          </h1>
+          <p className="text-gray-500 text-sm mt-2">
+            Enter your email to receive a verification code
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-1">
-              Nhập email để nhận mã OTP
+            <label
+              htmlFor="email"
+              className="block text-gray-700 text-sm mb-1 font-medium"
+            >
+              Email address
             </label>
             <Input
               id="email"
@@ -31,18 +62,30 @@ export default function ForgotPasswordPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              className="bg-gray-100 border border-gray-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-300 text-gray-800"
             />
           </div>
 
-          <Button type="submit" className="w-full">
-            Gửi OTP
+          {error && (
+            <p className="text-sm text-red-500 text-center">{error}</p>
+          )}
+
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-400 hover:to-purple-400 text-white font-semibold py-2 rounded-xl shadow-lg hover:shadow-indigo-300/40 transition-all duration-300"
+          >
+            {loading ? "Sending..." : "Send OTP"}
           </Button>
 
-          <p className="text-center text-sm mt-3">
-            <a href="/auth/login" className="text-blue-600 hover:underline">
-              Quay lại đăng nhập
+          <div className="text-center mt-4">
+            <a
+              href="/auth/login"
+              className="text-sm text-indigo-500 hover:underline hover:text-indigo-600 transition-colors"
+            >
+              Back to Login
             </a>
-          </p>
+          </div>
         </form>
       </div>
     </div>
