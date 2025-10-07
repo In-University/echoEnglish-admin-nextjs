@@ -26,8 +26,8 @@ export default function ResetPasswordPage() {
       const res = await resetPassword(email, otp, password);
       console.log(res.message);
       router.push("/auth/login");
-    } catch (err) {
-      setError("Failed to reset password. Try again later.");
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Failed to reset password. Try again later.");
     }
   };
 

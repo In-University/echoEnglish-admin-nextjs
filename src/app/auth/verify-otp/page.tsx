@@ -23,8 +23,8 @@ export default function VerifyOtpPage() {
       const res = await verifyOtp(email, otp);
       console.log(res.message);
       router.push(`/auth/reset-password?email=${encodeURIComponent(email)}&otp=${encodeURIComponent(otp)}`);
-    } catch (err) {
-      setError("Invalid OTP. Please try again.");
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Invalid OTP. Please try again.");
     }
   };
 
