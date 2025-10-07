@@ -3,8 +3,14 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { toast } from "sonner";
+import api from "@/lib/api";
 
 export default function UsersPage() {
   const [users, setUsers] = useState<any[]>([]);
@@ -17,19 +23,18 @@ export default function UsersPage() {
     phoneNumber: "",
   });
 
-  const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
-
-  // Load user list
+  // 🔁 Load danh sách người dùng
   useEffect(() => {
     fetchUsers();
   }, [search]);
 
   const fetchUsers = async () => {
-    const res = await fetch(`/users?search=${search}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await res.json();
-    setUsers(data.data);
+    try {
+      const res = await api.get(`/users`, { params: { search } });
+      setUsers(res.data.data || res.data);
+    } catch (err) {
+      toast.error("Không thể tải danh sách người dùng");
+    }
   };
 
   const handleOpenForm = (user?: any) => {
@@ -48,37 +53,28 @@ export default function UsersPage() {
   };
 
   const handleSubmit = async () => {
-    const method = editingUser ? "PUT" : "POST";
-    const url = editingUser ? `/users/${editingUser._id}` : `/users`;
-
-    const res = await fetch(url, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (res.ok) {
-      toast.success(editingUser ? "Cập nhật thành công" : "Tạo người dùng thành công");
+    try {
+      if (editingUser) {
+        await api.put(`/users/${editingUser._id}`, formData);
+        toast.success("Cập nhật người dùng thành công");
+      } else {
+        await api.post(`/users`, formData);
+        toast.success("Tạo người dùng thành công");
+      }
       setOpen(false);
       fetchUsers();
-    } else {
-      toast.error("Lỗi khi lưu người dùng");
+    } catch (err) {
+      toast.error("Không thể lưu người dùng");
     }
   };
 
   const handleSoftDelete = async (id: string) => {
     if (!confirm("Xác nhận xóa người dùng này?")) return;
-    const res = await fetch(`/api/users/${id}`, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (res.ok) {
+    try {
+      await api.delete(`/users/${id}`);
       toast.success("Đã xóa mềm người dùng");
       fetchUsers();
-    } else {
+    } catch (err) {
       toast.error("Không thể xóa người dùng");
     }
   };
@@ -86,7 +82,7 @@ export default function UsersPage() {
   return (
     <div className="bg-white p-6 rounded-lg shadow">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">Quản lý User</h2>
+        <h2 className="text-lg font-semibold text-gray-700">Quản lý User</h2>
         <Button onClick={() => handleOpenForm()}>+ Thêm User</Button>
       </div>
 
@@ -104,7 +100,7 @@ export default function UsersPage() {
             <th className="p-2 text-left">Họ tên</th>
             <th className="p-2 text-left">Email</th>
             <th className="p-2 text-left">SĐT</th>
-            <th className="p-2">Thao tác</th>
+            <th className="p-2 text-center">Thao tác</th>
           </tr>
         </thead>
         <tbody>
@@ -114,7 +110,11 @@ export default function UsersPage() {
               <td className="p-2">{u.email}</td>
               <td className="p-2">{u.phoneNumber || "-"}</td>
               <td className="p-2 flex gap-2 justify-center">
-                <Button variant="outline" size="sm" onClick={() => handleOpenForm(u)}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleOpenForm(u)}
+                >
                   Sửa
                 </Button>
                 <Button
@@ -134,23 +134,31 @@ export default function UsersPage() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{editingUser ? "Cập nhật người dùng" : "Thêm người dùng"}</DialogTitle>
+            <DialogTitle>
+              {editingUser ? "Cập nhật người dùng" : "Thêm người dùng"}
+            </DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             <Input
               placeholder="Họ tên"
               value={formData.fullName}
-              onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, fullName: e.target.value })
+              }
             />
             <Input
               placeholder="Email"
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
             />
             <Input
               placeholder="Số điện thoại"
               value={formData.phoneNumber}
-              onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, phoneNumber: e.target.value })
+              }
             />
             <Button onClick={handleSubmit}>
               {editingUser ? "Lưu thay đổi" : "Tạo mới"}
