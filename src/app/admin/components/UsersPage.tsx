@@ -10,85 +10,142 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import api from "@/lib/api";
+import {
+  getUsers,
+  createUser,
+  updateUser,
+  softDeleteUser,
+} from "@/lib/userApi";
+import { getRoles } from "@/lib/roleApi";
+import {
+  User,
+  UserFormData,
+  PaginatedResponse,
+  Role,
+} from "@/types/user";
 
 export default function UsersPage() {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [roles, setRoles] = useState<Role[]>([]);
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
-  const [editingUser, setEditingUser] = useState<any>(null);
-  const [formData, setFormData] = useState({
+  const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [formData, setFormData] = useState<UserFormData>({
     fullName: "",
     email: "",
+    password: "",
     phoneNumber: "",
+    address: "",
+    gender: "",
+    role: "",
   });
 
-  // 🔁 Load danh sách người dùng
+  // Pagination
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const limit = 5;
+
   useEffect(() => {
     fetchUsers();
-  }, [search]);
+  }, [search, page]);
+
+  useEffect(() => {
+    fetchRoles();
+  }, []);
 
   const fetchUsers = async () => {
     try {
-      const res = await api.get(`/users`, { params: { search } });
-      setUsers(res.data.data || res.data);
-    } catch (err) {
-      toast.error("Không thể tải danh sách người dùng");
+      const res = await getUsers(page, limit, search);
+      const result = res.data as PaginatedResponse<User>;
+      setUsers(result.data);
+      setTotalPages(result.totalPages || 1);
+    } catch {
+      toast.error("Failed to load user list");
     }
   };
 
-  const handleOpenForm = (user?: any) => {
+  const fetchRoles = async () => {
+    try {
+      const res = await getRoles();
+      setRoles(res.data);
+    } catch {
+      toast.error("Failed to load roles");
+    }
+  };
+
+  const handleOpenForm = (user?: User) => {
     if (user) {
       setEditingUser(user);
       setFormData({
         fullName: user.fullName,
         email: user.email,
         phoneNumber: user.phoneNumber || "",
+        address: user.address || "",
+        gender: user.gender || "",
+        role:
+          user.roles && user.roles.length > 0
+            ? user.roles[0]._id
+            : "",
       });
     } else {
       setEditingUser(null);
-      setFormData({ fullName: "", email: "", phoneNumber: "" });
+      setFormData({
+        fullName: "",
+        email: "",
+        password: "",
+        phoneNumber: "",
+        address: "",
+        gender: "",
+        role: "",
+      });
     }
     setOpen(true);
   };
 
   const handleSubmit = async () => {
     try {
+      const payload = {
+        ...formData,
+        roles: formData.role ? [formData.role] : [],
+      };
+
+      delete payload.role;
+
       if (editingUser) {
-        await api.put(`/users/${editingUser._id}`, formData);
-        toast.success("Cập nhật người dùng thành công");
+        await updateUser(editingUser._id, payload);
+        toast.success("User updated successfully");
       } else {
-        await api.post(`/users`, formData);
-        toast.success("Tạo người dùng thành công");
+        await createUser(payload);
+        toast.success("User created successfully");
       }
       setOpen(false);
       fetchUsers();
-    } catch (err) {
-      toast.error("Không thể lưu người dùng");
+    } catch {
+      toast.error("Error while saving user");
     }
   };
 
   const handleSoftDelete = async (id: string) => {
-    if (!confirm("Xác nhận xóa người dùng này?")) return;
+    if (!confirm("Are you sure you want to delete this user?")) return;
     try {
-      await api.delete(`/users/${id}`);
-      toast.success("Đã xóa mềm người dùng");
+      await softDeleteUser(id);
+      toast.success("User deleted successfully");
       fetchUsers();
-    } catch (err) {
-      toast.error("Không thể xóa người dùng");
+    } catch {
+      toast.error("Failed to delete user");
     }
   };
 
   return (
     <div className="bg-white p-6 rounded-lg shadow">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold text-gray-700">Quản lý User</h2>
-        <Button onClick={() => handleOpenForm()}>+ Thêm User</Button>
+        <h2 className="text-lg font-semibold">User Management</h2>
+        <Button onClick={() => handleOpenForm()}>+ Add User</Button>
       </div>
 
       <div className="flex items-center gap-2 mb-4">
         <Input
-          placeholder="Tìm kiếm theo tên hoặc email..."
+          placeholder="Search by name or email..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -97,50 +154,83 @@ export default function UsersPage() {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b bg-gray-50">
-            <th className="p-2 text-left">Họ tên</th>
+            <th className="p-2 text-left">Full Name</th>
             <th className="p-2 text-left">Email</th>
-            <th className="p-2 text-left">SĐT</th>
-            <th className="p-2 text-center">Thao tác</th>
+            <th className="p-2 text-left">Role</th>
+            <th className="p-2 text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {users.map((u) => (
-            <tr key={u._id} className="border-b hover:bg-gray-50">
-              <td className="p-2">{u.fullName}</td>
-              <td className="p-2">{u.email}</td>
-              <td className="p-2">{u.phoneNumber || "-"}</td>
-              <td className="p-2 flex gap-2 justify-center">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleOpenForm(u)}
-                >
-                  Sửa
-                </Button>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => handleSoftDelete(u._id)}
-                >
-                  Xóa
-                </Button>
+          {users.length > 0 ? (
+            users.map((u) => (
+              <tr key={u._id} className="border-b hover:bg-gray-50">
+                <td className="p-2">{u.fullName}</td>
+                <td className="p-2">{u.email}</td>
+                <td className="p-2">
+                  {u.roles && u.roles.length > 0
+                    ? u.roles.map((r) => r.name).join(", ")
+                    : "-"}
+                </td>
+                <td className="p-2 flex gap-2 justify-center">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleOpenForm(u)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => handleSoftDelete(u._id)}
+                  >
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={4} className="text-center p-4 text-gray-500">
+                No users found
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 
-      {/* Dialog thêm/sửa user */}
+      {/* Pagination */}
+      <div className="flex justify-center items-center mt-4 gap-2">
+        <Button
+          variant="outline"
+          disabled={page === 1}
+          onClick={() => setPage((p) => p - 1)}
+        >
+          Previous
+        </Button>
+        <span className="text-sm">
+          Page {page} / {totalPages}
+        </span>
+        <Button
+          variant="outline"
+          disabled={page === totalPages}
+          onClick={() => setPage((p) => p + 1)}
+        >
+          Next
+        </Button>
+      </div>
+
+      {/* Dialog Add/Edit User */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {editingUser ? "Cập nhật người dùng" : "Thêm người dùng"}
+              {editingUser ? "Edit User" : "Add New User"}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             <Input
-              placeholder="Họ tên"
+              placeholder="Full Name"
               value={formData.fullName}
               onChange={(e) =>
                 setFormData({ ...formData, fullName: e.target.value })
@@ -153,15 +243,63 @@ export default function UsersPage() {
                 setFormData({ ...formData, email: e.target.value })
               }
             />
+            {!editingUser && (
+              <Input
+                placeholder="Password"
+                type="password"
+                value={formData.password || ""}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
+              />
+            )}
             <Input
-              placeholder="Số điện thoại"
-              value={formData.phoneNumber}
+              placeholder="Phone Number"
+              value={formData.phoneNumber || ""}
               onChange={(e) =>
                 setFormData({ ...formData, phoneNumber: e.target.value })
               }
             />
+            <Input
+              placeholder="Address"
+              value={formData.address || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, address: e.target.value })
+              }
+            />
+
+            {/* Gender */}
+            <select
+              className="border rounded p-2 w-full"
+              value={formData.gender || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, gender: e.target.value })
+              }
+            >
+              <option value="">-- Select Gender --</option>
+              <option value="MALE">Male</option>
+              <option value="FEMALE">Female</option>
+              <option value="OTHER">Other</option>
+            </select>
+
+            {/* Role */}
+            <select
+              className="border rounded p-2 w-full"
+              value={formData.role || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, role: e.target.value })
+              }
+            >
+              <option value="">-- Select Role --</option>
+              {roles.map((r) => (
+                <option key={r._id} value={r._id}>
+                  {r.name}
+                </option>
+              ))}
+            </select>
+
             <Button onClick={handleSubmit}>
-              {editingUser ? "Lưu thay đổi" : "Tạo mới"}
+              {editingUser ? "Save Changes" : "Create User"}
             </Button>
           </div>
         </DialogContent>
