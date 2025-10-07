@@ -18,7 +18,7 @@ export default function Header({ user, onLogout }: any) {
           {user ? user.fullName || user.email : ""}
         </span>
         <Button variant="outline" onClick={onLogout}>
-          Đăng xuất
+          Logout
         </Button>
       </div>
     </header>
