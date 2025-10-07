@@ -4,11 +4,13 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { resetPassword } from "@/lib/authApi";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
+  const otp = searchParams.get("otp") || "";
 
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -21,8 +23,8 @@ export default function ResetPasswordPage() {
       return;
     }
     try {
-      // TODO: Gọi API đặt lại mật khẩu
-      console.log("Reset password for:", email);
+      const res = await resetPassword(email, otp, password);
+      console.log(res.message);
       router.push("/auth/login");
     } catch (err) {
       setError("Failed to reset password. Try again later.");

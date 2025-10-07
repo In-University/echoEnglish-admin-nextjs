@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { verifyOtp } from "@/lib/authApi";
 
 export default function VerifyOtpPage() {
   const router = useRouter();
@@ -19,8 +20,9 @@ export default function VerifyOtpPage() {
 
     try {
       // TODO: Gọi API xác minh OTP
-      console.log("Verify OTP:", otp, "for", email);
-      router.push(`/auth/reset-password?email=${encodeURIComponent(email)}`);
+      const res = await verifyOtp(email, otp);
+      console.log(res.message);
+      router.push(`/auth/reset-password?email=${encodeURIComponent(email)}&otp=${encodeURIComponent(otp)}`);
     } catch (err) {
       setError("Invalid OTP. Please try again.");
     }

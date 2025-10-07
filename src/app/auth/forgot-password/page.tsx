@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { sendOtp } from "@/lib/authApi";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -12,21 +13,20 @@ export default function ForgotPasswordPage() {
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  e.preventDefault();
+  setError("");
+  setLoading(true);
 
-    try {
-      // TODO: Gọi API gửi OTP
-      // await sendOtp(email);
-      console.log("Send OTP to:", email);
-      router.push(`/auth/verify-otp?email=${encodeURIComponent(email)}`);
-    } catch (err) {
-      setError("Failed to send OTP. Please try again.");
-    } finally {
+  try {
+    const res = await sendOtp(email);
+    console.log(res.message);
+    router.push(`/auth/verify-otp?email=${encodeURIComponent(email)}`);
+  } catch (err: any) {
+      setError(err.response?.data?.message || "Failed to send OTP. Please try again.");
+  } finally {
       setLoading(false);
-    }
-  };
+  }
+};
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
