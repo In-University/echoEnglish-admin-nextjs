@@ -10,7 +10,7 @@ export interface Role {
   updatedAt?: string;
 }
 
-export type Gender = "MALE" | "FEMALE" | "OTHER";
+export type Gender = 'MALE' | 'FEMALE' | 'OTHER';
 
 export interface User {
   _id: string;
@@ -33,7 +33,7 @@ export interface UserFormData {
   password?: string;
   phoneNumber?: string;
   address?: string;
-  gender?: Gender | "";
+  gender?: Gender | '';
   role?: string; // "admin" | "user"
 }
 

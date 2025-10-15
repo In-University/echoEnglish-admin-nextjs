@@ -1,14 +1,19 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import { getPromos, createPromo, updatePromo, deletePromo } from "@/lib/promoApi";
-import { PromoCode } from "@/types/promo";
-import { Button } from "@/components/ui/button";
-import { Plus, ArrowLeft, ArrowRight } from "lucide-react";
-import { PromoFilterCard } from "./promotion/PromoFilterCard";
-import { PromoTable } from "./promotion/PromoTable";
-import { PromoDialogForm } from "./promotion/PromoDialogForm";
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
+import {
+  getPromos,
+  createPromo,
+  updatePromo,
+  deletePromo,
+} from '@/lib/promoApi';
+import { PromoCode } from '@/types/promo';
+import { Button } from '@/components/ui/button';
+import { Plus, ArrowLeft, ArrowRight } from 'lucide-react';
+import { PromoFilterCard } from './promotion/PromoFilterCard';
+import { PromoTable } from './promotion/PromoTable';
+import { PromoDialogForm } from './promotion/PromoDialogForm';
 
 export default function PromotionsPage() {
   const [promos, setPromos] = useState<PromoCode[]>([]);
@@ -19,13 +24,13 @@ export default function PromotionsPage() {
 
   // Filters
   const [filters, setFilters] = useState({
-    search: "",
-    sort: "desc",
-    active: "",
-    minDiscount: "",
-    maxDiscount: "",
-    status: "",
-    availability: "",
+    search: '',
+    sort: 'desc',
+    active: '',
+    minDiscount: '',
+    maxDiscount: '',
+    status: '',
+    availability: '',
   });
 
   // Dialog
@@ -40,7 +45,7 @@ export default function PromotionsPage() {
       setPromos(result.data || []);
       setTotalPages(result.pagination?.totalPages || 1);
     } catch {
-      toast.error("Không thể tải danh sách khuyến mãi");
+      toast.error('Không thể tải danh sách khuyến mãi');
     } finally {
       setLoading(false);
     }
@@ -62,26 +67,26 @@ export default function PromotionsPage() {
 
       if (editingPromo) {
         await updatePromo(editingPromo._id!, payload);
-        toast.success("Đã cập nhật khuyến mãi");
+        toast.success('Đã cập nhật khuyến mãi');
       } else {
         await createPromo(payload);
-        toast.success("Đã tạo khuyến mãi mới");
+        toast.success('Đã tạo khuyến mãi mới');
       }
 
       setOpenDialog(false);
       fetchPromos();
     } catch {
-      toast.error("Lưu thất bại");
+      toast.error('Lưu thất bại');
     }
   };
 
   const handleDelete = async (id: string) => {
     try {
       await deletePromo(id);
-      toast.success("Đã xoá thành công");
+      toast.success('Đã xoá thành công');
       fetchPromos();
     } catch {
-      toast.error("Xoá thất bại");
+      toast.error('Xoá thất bại');
     }
   };
 
@@ -100,12 +105,16 @@ export default function PromotionsPage() {
         </Button>
       </div>
 
-      <PromoFilterCard filters={filters} setFilters={setFilters} reload={fetchPromos} />
+      <PromoFilterCard
+        filters={filters}
+        setFilters={setFilters}
+        reload={fetchPromos}
+      />
 
       <PromoTable
         promos={promos}
         loading={loading}
-        onEdit={(promo:PromoCode) => {
+        onEdit={(promo: PromoCode) => {
           setEditingPromo(promo);
           setOpenDialog(true);
         }}
@@ -114,7 +123,12 @@ export default function PromotionsPage() {
 
       {/* Pagination */}
       <div className="flex justify-center items-center gap-3">
-        <Button variant="outline" size="sm" disabled={page === 1} onClick={() => setPage(p => Math.max(1, p - 1))}>
+        <Button
+          variant="outline"
+          size="sm"
+          disabled={page === 1}
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
+        >
           <ArrowLeft className="w-4 h-4 mr-1" /> Trước
         </Button>
         <span className="text-gray-600 text-sm">
@@ -124,7 +138,7 @@ export default function PromotionsPage() {
           variant="outline"
           size="sm"
           disabled={page === totalPages}
-          onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
         >
           Sau <ArrowRight className="w-4 h-4 ml-1" />
         </Button>

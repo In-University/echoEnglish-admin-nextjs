@@ -1,7 +1,14 @@
-"use client";
+'use client';
 
-import { ArrowDownCircle, ArrowUpCircle, Wallet, AlertCircle, CheckCircle2, XCircle } from "lucide-react";
-import { Badge } from "@/components/ui/badge"; // nếu bạn chưa có component Badge thì mình có thể gửi luôn
+import {
+  ArrowDownCircle,
+  ArrowUpCircle,
+  Wallet,
+  AlertCircle,
+  CheckCircle2,
+  XCircle,
+} from 'lucide-react';
+import { Badge } from '@/components/ui/badge'; // nếu bạn chưa có component Badge thì mình có thể gửi luôn
 
 interface PaymentTableProps {
   data: any[];
@@ -9,23 +16,23 @@ interface PaymentTableProps {
 
 export default function PaymentTable({ data }: PaymentTableProps) {
   const formatAmount = (amount: number) =>
-    amount.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+    amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "SUCCEEDED":
+      case 'SUCCEEDED':
         return (
           <Badge className="bg-green-100 text-green-700 flex items-center gap-1">
             <CheckCircle2 className="w-3.5 h-3.5" /> Succeeded
           </Badge>
         );
-      case "FAILED":
+      case 'FAILED':
         return (
           <Badge className="bg-red-100 text-red-700 flex items-center gap-1">
             <XCircle className="w-3.5 h-3.5" /> Failed
           </Badge>
         );
-      case "EXPIRED":
+      case 'EXPIRED':
         return (
           <Badge className="bg-yellow-100 text-yellow-700 flex items-center gap-1">
             <AlertCircle className="w-3.5 h-3.5" /> Expired
@@ -41,9 +48,9 @@ export default function PaymentTable({ data }: PaymentTableProps) {
   };
 
   const getTypeIcon = (type: string) => {
-    if (type === "purchase")
+    if (type === 'purchase')
       return <ArrowUpCircle className="text-blue-500 w-4 h-4" />;
-    if (type === "deduction")
+    if (type === 'deduction')
       return <ArrowDownCircle className="text-orange-500 w-4 h-4" />;
     return <Wallet className="text-gray-400 w-4 h-4" />;
   };
@@ -66,10 +73,7 @@ export default function PaymentTable({ data }: PaymentTableProps) {
         <tbody>
           {data.length === 0 ? (
             <tr>
-              <td
-                colSpan={8}
-                className="text-center py-6 text-gray-500 italic"
-              >
+              <td colSpan={8} className="text-center py-6 text-gray-500 italic">
                 No transactions found
               </td>
             </tr>
@@ -80,9 +84,9 @@ export default function PaymentTable({ data }: PaymentTableProps) {
                 className="border-t hover:bg-gray-50 transition-colors"
               >
                 <td className="p-3 text-gray-700">
-                  {new Date(tx.createdAt).toLocaleString("vi-VN")}
+                  {new Date(tx.createdAt).toLocaleString('vi-VN')}
                 </td>
-                <td className="p-3 text-gray-700">{tx.user || "—"}</td>
+                <td className="p-3 text-gray-700">{tx.user || '—'}</td>
                 <td className="p-3 flex items-center gap-2 capitalize text-gray-800">
                   {getTypeIcon(tx.type)}
                   {tx.type}

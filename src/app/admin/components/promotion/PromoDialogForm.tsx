@@ -1,18 +1,23 @@
-"use client";
+'use client';
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Calendar } from "lucide-react";
-import { useState, useEffect } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Calendar } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export function PromoDialogForm({ open, setOpen, editingPromo, onSave }: any) {
   const [form, setForm] = useState({
-    code: "",
+    code: '',
     discount: 0,
     usageLimit: 1,
-    expiration: "",
+    expiration: '',
     active: true,
   });
 
@@ -26,7 +31,13 @@ export function PromoDialogForm({ open, setOpen, editingPromo, onSave }: any) {
         active: editingPromo.active,
       });
     } else {
-      setForm({ code: "", discount: 0, usageLimit: 1, expiration: "", active: true });
+      setForm({
+        code: '',
+        discount: 0,
+        usageLimit: 1,
+        expiration: '',
+        active: true,
+      });
     }
   }, [editingPromo]);
 
@@ -35,7 +46,7 @@ export function PromoDialogForm({ open, setOpen, editingPromo, onSave }: any) {
       <DialogContent className="max-w-md rounded-2xl">
         <DialogHeader>
           <DialogTitle>
-            {editingPromo ? "Cập nhật khuyến mãi" : "Tạo khuyến mãi mới"}
+            {editingPromo ? 'Cập nhật khuyến mãi' : 'Tạo khuyến mãi mới'}
           </DialogTitle>
         </DialogHeader>
 
@@ -77,8 +88,10 @@ export function PromoDialogForm({ open, setOpen, editingPromo, onSave }: any) {
               <Input
                 type="date"
                 className="pl-9"
-                value={form.expiration ? form.expiration.split("T")[0] : ""}
-                onChange={(e) => setForm({ ...form, expiration: e.target.value })}
+                value={form.expiration ? form.expiration.split('T')[0] : ''}
+                onChange={(e) =>
+                  setForm({ ...form, expiration: e.target.value })
+                }
               />
             </div>
           </div>
@@ -98,7 +111,7 @@ export function PromoDialogForm({ open, setOpen, editingPromo, onSave }: any) {
               Huỷ
             </Button>
             <Button onClick={() => onSave(form)}>
-              {editingPromo ? "Lưu thay đổi" : "Tạo mới"}
+              {editingPromo ? 'Lưu thay đổi' : 'Tạo mới'}
             </Button>
           </div>
         </div>

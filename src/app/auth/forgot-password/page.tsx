@@ -1,32 +1,34 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { sendOtp } from "@/lib/authApi";
+import { useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { sendOtp } from '@/lib/authApi';
 
 export default function ForgotPasswordPage() {
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setError("");
-  setLoading(true);
+    e.preventDefault();
+    setError('');
+    setLoading(true);
 
-  try {
-    const res = await sendOtp(email);
-    console.log(res.message);
-    router.push(`/auth/verify-otp?email=${encodeURIComponent(email)}`);
-  } catch (err: any) {
-      setError(err.response?.data?.message || "Failed to send OTP. Please try again.");
-  } finally {
+    try {
+      const res = await sendOtp(email);
+      console.log(res.message);
+      router.push(`/auth/verify-otp?email=${encodeURIComponent(email)}`);
+    } catch (err: any) {
+      setError(
+        err.response?.data?.message || 'Failed to send OTP. Please try again.'
+      );
+    } finally {
       setLoading(false);
-  }
-};
+    }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 relative overflow-hidden">
@@ -66,16 +68,14 @@ export default function ForgotPasswordPage() {
             />
           </div>
 
-          {error && (
-            <p className="text-sm text-red-500 text-center">{error}</p>
-          )}
+          {error && <p className="text-sm text-red-500 text-center">{error}</p>}
 
           <Button
             type="submit"
             disabled={loading}
             className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-400 hover:to-purple-400 text-white font-semibold py-2 rounded-xl shadow-lg hover:shadow-indigo-300/40 transition-all duration-300"
           >
-            {loading ? "Sending..." : "Send OTP"}
+            {loading ? 'Sending...' : 'Send OTP'}
           </Button>
 
           <div className="text-center mt-4">

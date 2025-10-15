@@ -1,9 +1,8 @@
-
-import api from "./api";
+import api from './api';
 
 export const getRoles = async (search: string) => {
   const res = await api.get(`/roles`, {
-    params: {search },
+    params: { search },
   });
   return res.data;
 };

@@ -1,33 +1,36 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { resetPassword } from "@/lib/authApi";
+import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { resetPassword } from '@/lib/authApi';
 
 export default function ResetPasswordPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams.get("email") || "";
-  const otp = searchParams.get("otp") || "";
+  const email = searchParams.get('email') || '';
+  const otp = searchParams.get('otp') || '';
 
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
-  const [error, setError] = useState("");
+  const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirm) {
-      setError("Passwords do not match.");
+      setError('Passwords do not match.');
       return;
     }
     try {
       const res = await resetPassword(email, otp, password);
       console.log(res.message);
-      router.push("/auth/login");
+      router.push('/auth/login');
     } catch (err: any) {
-      setError(err.response?.data?.message || "Failed to reset password. Try again later.");
+      setError(
+        err.response?.data?.message ||
+          'Failed to reset password. Try again later.'
+      );
     }
   };
 

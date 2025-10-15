@@ -1,14 +1,20 @@
-import api from "./api";
-import { Response } from "@/types/response";
+import api from './api';
+import { Response } from '@/types/response';
 
-
-export const getPromos = async (page: number, limit: number, filters?: any): Promise<Response<any>> => {
+export const getPromos = async (
+  page: number,
+  limit: number,
+  filters?: any
+): Promise<Response<any>> => {
   const res = await api.get(`/promo`, {
     params: { page, limit, ...filters },
   });
-  if (filters.active === '' || filters.active === undefined) delete filters.active;
-  if (filters.minDiscount === '' || filters.minDiscount === undefined) delete filters.minDiscount;
-  if (filters.maxDiscount === '' || filters.maxDiscount === undefined) delete filters.maxDiscount;
+  if (filters.active === '' || filters.active === undefined)
+    delete filters.active;
+  if (filters.minDiscount === '' || filters.minDiscount === undefined)
+    delete filters.minDiscount;
+  if (filters.maxDiscount === '' || filters.maxDiscount === undefined)
+    delete filters.maxDiscount;
   return res.data;
 };
 

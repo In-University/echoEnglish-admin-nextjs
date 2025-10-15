@@ -1,43 +1,38 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { toast } from "sonner";
+} from '@/components/ui/dialog';
+import { toast } from 'sonner';
 import {
   getUsers,
   createUser,
   updateUser,
   softDeleteUser,
-} from "@/lib/userApi";
-import { getRoles } from "@/lib/roleApi";
-import {
-  User,
-  UserFormData,
-  PaginatedResponse,
-  Role,
-} from "@/types/user";
+} from '@/lib/userApi';
+import { getRoles } from '@/lib/roleApi';
+import { User, UserFormData, PaginatedResponse, Role } from '@/types/user';
 
 export default function UsersPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [roles, setRoles] = useState<Role[]>([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [formData, setFormData] = useState<UserFormData>({
-    fullName: "",
-    email: "",
-    password: "",
-    phoneNumber: "",
-    address: "",
-    gender: "",
-    role: "",
+    fullName: '',
+    email: '',
+    password: '',
+    phoneNumber: '',
+    address: '',
+    gender: '',
+    role: '',
   });
 
   // Pagination
@@ -60,7 +55,7 @@ export default function UsersPage() {
       setUsers(result.data);
       setTotalPages(result.totalPages || 1);
     } catch {
-      toast.error("Failed to load user list");
+      toast.error('Failed to load user list');
     }
   };
 
@@ -69,7 +64,7 @@ export default function UsersPage() {
       const res = await getRoles();
       setRoles(res.data);
     } catch {
-      toast.error("Failed to load roles");
+      toast.error('Failed to load roles');
     }
   };
 
@@ -79,24 +74,21 @@ export default function UsersPage() {
       setFormData({
         fullName: user.fullName,
         email: user.email,
-        phoneNumber: user.phoneNumber || "",
-        address: user.address || "",
-        gender: user.gender || "",
-        role:
-          user.roles && user.roles.length > 0
-            ? user.roles[0]._id
-            : "",
+        phoneNumber: user.phoneNumber || '',
+        address: user.address || '',
+        gender: user.gender || '',
+        role: user.roles && user.roles.length > 0 ? user.roles[0]._id : '',
       });
     } else {
       setEditingUser(null);
       setFormData({
-        fullName: "",
-        email: "",
-        password: "",
-        phoneNumber: "",
-        address: "",
-        gender: "",
-        role: "",
+        fullName: '',
+        email: '',
+        password: '',
+        phoneNumber: '',
+        address: '',
+        gender: '',
+        role: '',
       });
     }
     setOpen(true);
@@ -113,26 +105,26 @@ export default function UsersPage() {
 
       if (editingUser) {
         await updateUser(editingUser._id, payload);
-        toast.success("User updated successfully");
+        toast.success('User updated successfully');
       } else {
         await createUser(payload);
-        toast.success("User created successfully");
+        toast.success('User created successfully');
       }
       setOpen(false);
       fetchUsers();
     } catch {
-      toast.error("Error while saving user");
+      toast.error('Error while saving user');
     }
   };
 
   const handleSoftDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this user?")) return;
+    if (!confirm('Are you sure you want to delete this user?')) return;
     try {
       await softDeleteUser(id);
-      toast.success("User deleted successfully");
+      toast.success('User deleted successfully');
       fetchUsers();
     } catch {
-      toast.error("Failed to delete user");
+      toast.error('Failed to delete user');
     }
   };
 
@@ -168,8 +160,8 @@ export default function UsersPage() {
                 <td className="p-2">{u.email}</td>
                 <td className="p-2">
                   {u.roles && u.roles.length > 0
-                    ? u.roles.map((r) => r.name).join(", ")
-                    : "-"}
+                    ? u.roles.map((r) => r.name).join(', ')
+                    : '-'}
                 </td>
                 <td className="p-2 flex gap-2 justify-center">
                   <Button
@@ -225,7 +217,7 @@ export default function UsersPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {editingUser ? "Edit User" : "Add New User"}
+              {editingUser ? 'Edit User' : 'Add New User'}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
@@ -247,7 +239,7 @@ export default function UsersPage() {
               <Input
                 placeholder="Password"
                 type="password"
-                value={formData.password || ""}
+                value={formData.password || ''}
                 onChange={(e) =>
                   setFormData({ ...formData, password: e.target.value })
                 }
@@ -255,14 +247,14 @@ export default function UsersPage() {
             )}
             <Input
               placeholder="Phone Number"
-              value={formData.phoneNumber || ""}
+              value={formData.phoneNumber || ''}
               onChange={(e) =>
                 setFormData({ ...formData, phoneNumber: e.target.value })
               }
             />
             <Input
               placeholder="Address"
-              value={formData.address || ""}
+              value={formData.address || ''}
               onChange={(e) =>
                 setFormData({ ...formData, address: e.target.value })
               }
@@ -271,7 +263,7 @@ export default function UsersPage() {
             {/* Gender */}
             <select
               className="border rounded p-2 w-full"
-              value={formData.gender || ""}
+              value={formData.gender || ''}
               onChange={(e) =>
                 setFormData({ ...formData, gender: e.target.value })
               }
@@ -285,7 +277,7 @@ export default function UsersPage() {
             {/* Role */}
             <select
               className="border rounded p-2 w-full"
-              value={formData.role || ""}
+              value={formData.role || ''}
               onChange={(e) =>
                 setFormData({ ...formData, role: e.target.value })
               }
@@ -299,7 +291,7 @@ export default function UsersPage() {
             </select>
 
             <Button onClick={handleSubmit}>
-              {editingUser ? "Save Changes" : "Create User"}
+              {editingUser ? 'Save Changes' : 'Create User'}
             </Button>
           </div>
         </DialogContent>

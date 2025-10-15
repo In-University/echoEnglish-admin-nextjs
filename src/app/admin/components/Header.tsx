@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { Bell, Settings } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Bell, Settings } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function Header({ user, onLogout }: any) {
   return (
@@ -15,7 +15,7 @@ export default function Header({ user, onLogout }: any) {
           <Settings size={20} />
         </button>
         <span className="text-sm text-gray-600">
-          {user ? user.fullName || user.email : ""}
+          {user ? user.fullName || user.email : ''}
         </span>
         <Button variant="outline" onClick={onLogout}>
           Logout

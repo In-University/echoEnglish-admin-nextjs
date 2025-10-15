@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Pencil, Trash2 } from "lucide-react";
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Pencil, Trash2 } from 'lucide-react';
 
 export function PromoTable({ promos, loading, onEdit, onDelete }: any) {
   return (
@@ -38,21 +38,31 @@ export function PromoTable({ promos, loading, onEdit, onDelete }: any) {
                   <td className="p-3 font-mono">{promo.code}</td>
                   <td className="p-3">{promo.discount}%</td>
                   <td className="p-3">{promo.usedCount}</td>
-                  <td className="p-3">{promo.usageLimit ?? "-"}</td>
+                  <td className="p-3">{promo.usageLimit ?? '-'}</td>
                   <td className="p-3">
                     {promo.active ? (
                       <Badge className="bg-green-100 text-green-700">
                         Đang hoạt động
                       </Badge>
                     ) : (
-                      <Badge className="bg-red-100 text-red-700">Ngừng hoạt động</Badge>
+                      <Badge className="bg-red-100 text-red-700">
+                        Ngừng hoạt động
+                      </Badge>
                     )}
                   </td>
                   <td className="p-3 text-center space-x-2">
-                    <Button size="icon" variant="outline" onClick={() => onEdit(promo)}>
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      onClick={() => onEdit(promo)}
+                    >
                       <Pencil className="w-4 h-4" />
                     </Button>
-                    <Button size="icon" variant="destructive" onClick={() => onDelete(promo._id)}>
+                    <Button
+                      size="icon"
+                      variant="destructive"
+                      onClick={() => onDelete(promo._id)}
+                    >
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </td>
@@ -60,7 +70,10 @@ export function PromoTable({ promos, loading, onEdit, onDelete }: any) {
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="text-center p-6 text-gray-500 italic">
+                <td
+                  colSpan={6}
+                  className="text-center p-6 text-gray-500 italic"
+                >
                   Không có mã khuyến mãi nào
                 </td>
               </tr>

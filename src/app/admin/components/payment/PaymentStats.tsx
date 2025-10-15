@@ -37,7 +37,9 @@ export default function PaymentStats({
       </div>
       <div className="p-3 border rounded-xl bg-purple-50">
         <p className="text-sm text-gray-500">Total Transactions</p>
-        <h3 className="text-purple-600 font-bold text-lg">{totalTransactions}</h3>
+        <h3 className="text-purple-600 font-bold text-lg">
+          {totalTransactions}
+        </h3>
       </div>
     </div>
   );

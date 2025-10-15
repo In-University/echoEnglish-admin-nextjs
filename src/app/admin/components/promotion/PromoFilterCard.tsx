@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Filter, Search, ChevronDown, ChevronUp } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Filter, Search, ChevronDown, ChevronUp } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface PromoFilterProps {
   filters: any;
@@ -15,13 +15,13 @@ interface PromoFilterProps {
 }
 
 const defaultFilters = {
-  search: "",
-  sort: "desc",
-  active: "",
-  minDiscount: "",
-  maxDiscount: "",
-  status: "",
-  availability: "",
+  search: '',
+  sort: 'desc',
+  active: '',
+  minDiscount: '',
+  maxDiscount: '',
+  status: '',
+  availability: '',
 };
 
 // ─── Dropdown chọn ──────────────────────────────
@@ -52,7 +52,11 @@ const FilterSelect = ({
   </div>
 );
 
-export function PromoFilterCard({ filters, setFilters, reload }: PromoFilterProps) {
+export function PromoFilterCard({
+  filters,
+  setFilters,
+  reload,
+}: PromoFilterProps) {
   const [showFilter, setShowFilter] = useState(true);
 
   const handleReset = () => {
@@ -92,7 +96,7 @@ export function PromoFilterCard({ filters, setFilters, reload }: PromoFilterProp
           {showFilter && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
+              animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.25 }}
             >
@@ -102,32 +106,38 @@ export function PromoFilterCard({ filters, setFilters, reload }: PromoFilterProp
                   <FilterSelect
                     label="Trạng thái hoạt động"
                     value={filters.active}
-                    onChange={(v) => setFilters((f: any) => ({ ...f, active: v }))}
+                    onChange={(v) =>
+                      setFilters((f: any) => ({ ...f, active: v }))
+                    }
                     options={[
-                      { value: "", label: "Tất cả" },
-                      { value: "true", label: "Đang hoạt động" },
-                      { value: "false", label: "Ngừng hoạt động" },
+                      { value: '', label: 'Tất cả' },
+                      { value: 'true', label: 'Đang hoạt động' },
+                      { value: 'false', label: 'Ngừng hoạt động' },
                     ]}
                   />
 
                   <FilterSelect
                     label="Sắp xếp"
                     value={filters.sort}
-                    onChange={(v) => setFilters((f: any) => ({ ...f, sort: v }))}
+                    onChange={(v) =>
+                      setFilters((f: any) => ({ ...f, sort: v }))
+                    }
                     options={[
-                      { value: "desc", label: "Mới nhất" },
-                      { value: "asc", label: "Cũ nhất" },
+                      { value: 'desc', label: 'Mới nhất' },
+                      { value: 'asc', label: 'Cũ nhất' },
                     ]}
                   />
 
                   <FilterSelect
                     label="Hiệu lực"
                     value={filters.status}
-                    onChange={(v) => setFilters((f: any) => ({ ...f, status: v }))}
+                    onChange={(v) =>
+                      setFilters((f: any) => ({ ...f, status: v }))
+                    }
                     options={[
-                      { value: "", label: "Tất cả" },
-                      { value: "valid", label: "Còn hạn" },
-                      { value: "expired", label: "Hết hạn" },
+                      { value: '', label: 'Tất cả' },
+                      { value: 'valid', label: 'Còn hạn' },
+                      { value: 'expired', label: 'Hết hạn' },
                     ]}
                   />
 
@@ -138,9 +148,9 @@ export function PromoFilterCard({ filters, setFilters, reload }: PromoFilterProp
                       setFilters((f: any) => ({ ...f, availability: v }))
                     }
                     options={[
-                      { value: "", label: "Tất cả" },
-                      { value: "available", label: "Còn lượt" },
-                      { value: "out", label: "Hết lượt" },
+                      { value: '', label: 'Tất cả' },
+                      { value: 'available', label: 'Còn lượt' },
+                      { value: 'out', label: 'Hết lượt' },
                     ]}
                   />
                 </div>
@@ -155,7 +165,7 @@ export function PromoFilterCard({ filters, setFilters, reload }: PromoFilterProp
                       <Input
                         type="number"
                         placeholder="Từ"
-                        value={filters.minDiscount ?? ""}
+                        value={filters.minDiscount ?? ''}
                         onChange={(e) =>
                           setFilters((f: any) => ({
                             ...f,
@@ -167,7 +177,7 @@ export function PromoFilterCard({ filters, setFilters, reload }: PromoFilterProp
                       <Input
                         type="number"
                         placeholder="Đến"
-                        value={filters.maxDiscount ?? ""}
+                        value={filters.maxDiscount ?? ''}
                         onChange={(e) =>
                           setFilters((f: any) => ({
                             ...f,

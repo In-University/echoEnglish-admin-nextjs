@@ -22,6 +22,3 @@ export interface PromoFormData {
   usageLimit?: number;
   active?: boolean;
 }
-
-
-

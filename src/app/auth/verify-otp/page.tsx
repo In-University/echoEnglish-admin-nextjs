@@ -1,30 +1,32 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { verifyOtp } from "@/lib/authApi";
+import { useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { verifyOtp } from '@/lib/authApi';
 
 export default function VerifyOtpPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams.get("email") || "";
+  const email = searchParams.get('email') || '';
 
-  const [otp, setOtp] = useState("");
-  const [error, setError] = useState("");
+  const [otp, setOtp] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setError('');
 
     try {
       // TODO: Gọi API xác minh OTP
       const res = await verifyOtp(email, otp);
       console.log(res.message);
-      router.push(`/auth/reset-password?email=${encodeURIComponent(email)}&otp=${encodeURIComponent(otp)}`);
+      router.push(
+        `/auth/reset-password?email=${encodeURIComponent(email)}&otp=${encodeURIComponent(otp)}`
+      );
     } catch (err: any) {
-      setError(err.response?.data?.message || "Invalid OTP. Please try again.");
+      setError(err.response?.data?.message || 'Invalid OTP. Please try again.');
     }
   };
 

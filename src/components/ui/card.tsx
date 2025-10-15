@@ -1,5 +1,5 @@
-import * as React from "react";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 export const Card = React.forwardRef<
   HTMLDivElement,
@@ -7,17 +7,23 @@ export const Card = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("rounded-2xl border bg-white text-gray-900 shadow-sm", className)}
+    className={cn(
+      'rounded-2xl border bg-white text-gray-900 shadow-sm',
+      className
+    )}
     {...props}
   />
 ));
-Card.displayName = "Card";
+Card.displayName = 'Card';
 
 export const CardHeader = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("flex flex-col space-y-1.5 p-6 border-b", className)} {...props} />
+  <div
+    className={cn('flex flex-col space-y-1.5 p-6 border-b', className)}
+    {...props}
+  />
 );
 
 export const CardTitle = ({
@@ -25,7 +31,10 @@ export const CardTitle = ({
   ...props
 }: React.HTMLAttributes<HTMLHeadingElement>) => (
   <h3
-    className={cn("text-2xl font-semibold leading-none tracking-tight", className)}
+    className={cn(
+      'text-2xl font-semibold leading-none tracking-tight',
+      className
+    )}
     {...props}
   />
 );
@@ -34,5 +43,5 @@ export const CardContent = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn("p-6 pt-4", className)} {...props} />
+  <div className={cn('p-6 pt-4', className)} {...props} />
 );

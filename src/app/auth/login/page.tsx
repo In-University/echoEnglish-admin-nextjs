@@ -1,30 +1,30 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import api from "@/lib/api";
-import { useRouter } from "next/navigation";
+import { useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import api from '@/lib/api';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("ledinhloc7@gmail.com");
-  const [password, setPassword] = useState("12341234");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('ledinhloc7@gmail.com');
+  const [password, setPassword] = useState('ledinhloc7@gmail.com');
+  const [error, setError] = useState('');
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setError('');
     try {
-      const res = await api.post("/auth/login", { email, password });
+      const res = await api.post('/auth/login', { email, password });
       const { access_token, user } = res.data.data;
 
-      localStorage.setItem("access_token", access_token);
-      localStorage.setItem("user", JSON.stringify(user));
-      router.push("/admin");
+      localStorage.setItem('access_token', access_token);
+      localStorage.setItem('user', JSON.stringify(user));
+      router.push('/admin');
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.message || "Đăng nhập thất bại");
+      setError(err.response?.data?.message || 'Đăng nhập thất bại');
     }
   };
 
@@ -84,9 +84,7 @@ export default function LoginPage() {
             />
           </div>
 
-          {error && (
-            <p className="text-sm text-red-500 text-center">{error}</p>
-          )}
+          {error && <p className="text-sm text-red-500 text-center">{error}</p>}
 
           <Button
             type="submit"

@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectTrigger,
   SelectItem,
   SelectContent,
   SelectValue,
-} from "@/components/ui/select";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { ChevronDown, ChevronUp } from "lucide-react";
+} from '@/components/ui/select';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 interface Props {
   onFilter: (filters: any) => void;
@@ -22,12 +22,12 @@ export default function PaymentFilters({ onFilter }: Props) {
   const [showFilters, setShowFilters] = useState<boolean>(false);
 
   const [filters, setFilters] = useState<any>({
-    type: "",
-    status: "",
-    gateway: "",
-    userId: "",
-    fromDate: "",
-    toDate: "",
+    type: '',
+    status: '',
+    gateway: '',
+    userId: '',
+    fromDate: '',
+    toDate: '',
   });
 
   const handleChange = (key: string, value: any) =>
@@ -37,12 +37,12 @@ export default function PaymentFilters({ onFilter }: Props) {
 
   const clearFilters = () => {
     const reset = {
-      type: "",
-      status: "",
-      gateway: "",
-      userId: "",
-      fromDate: "",
-      toDate: "",
+      type: '',
+      status: '',
+      gateway: '',
+      userId: '',
+      fromDate: '',
+      toDate: '',
     };
     setFilters(reset);
     onFilter(reset);
@@ -80,7 +80,7 @@ export default function PaymentFilters({ onFilter }: Props) {
               <Label className="mb-2 block">Transaction Type</Label>
               <Select
                 value={filters.type}
-                onValueChange={(v: any) => handleChange("type", v)}
+                onValueChange={(v: any) => handleChange('type', v)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="All Types" />
@@ -97,7 +97,7 @@ export default function PaymentFilters({ onFilter }: Props) {
               <Label className="mb-2 block">Payment Gateway</Label>
               <Select
                 value={filters.gateway}
-                onValueChange={(v: any) => handleChange("gateway", v)}
+                onValueChange={(v: any) => handleChange('gateway', v)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="All Gateways" />
@@ -114,7 +114,7 @@ export default function PaymentFilters({ onFilter }: Props) {
               <Label className="mb-2 block">Status</Label>
               <Select
                 value={filters.status}
-                onValueChange={(v: any) => handleChange("status", v)}
+                onValueChange={(v: any) => handleChange('status', v)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="All Status" />
@@ -134,7 +134,7 @@ export default function PaymentFilters({ onFilter }: Props) {
               <Input
                 placeholder="Optional userId"
                 value={filters.userId}
-                onChange={(e) => handleChange("userId", e.target.value)}
+                onChange={(e) => handleChange('userId', e.target.value)}
               />
             </div>
 
@@ -145,7 +145,7 @@ export default function PaymentFilters({ onFilter }: Props) {
                 <Input
                   type="date"
                   value={filters.fromDate}
-                  onChange={(e) => handleChange("fromDate", e.target.value)}
+                  onChange={(e) => handleChange('fromDate', e.target.value)}
                 />
               </div>
               <div className="flex-1">
@@ -153,7 +153,7 @@ export default function PaymentFilters({ onFilter }: Props) {
                 <Input
                   type="date"
                   value={filters.toDate}
-                  onChange={(e) => handleChange("toDate", e.target.value)}
+                  onChange={(e) => handleChange('toDate', e.target.value)}
                 />
               </div>
             </div>

@@ -1,11 +1,11 @@
-"use client";
-import { useEffect, useState } from "react";
-import { getPayments } from "@/lib/paymentApi";
-import PaymentFilters from "@/app/admin/components/payment/PaymentFilterCard";
-import PaymentStats from "@/app/admin/components/payment/PaymentStats";
-import PaymentTable from "@/app/admin/components/payment/PaymentTable";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+'use client';
+import { useEffect, useState } from 'react';
+import { getPayments } from '@/lib/paymentApi';
+import PaymentFilters from '@/app/admin/components/payment/PaymentFilterCard';
+import PaymentStats from '@/app/admin/components/payment/PaymentStats';
+import PaymentTable from '@/app/admin/components/payment/PaymentTable';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
 export default function PaymentsPage() {
   const [data, setData] = useState<any[]>([]);
@@ -32,13 +32,13 @@ export default function PaymentsPage() {
   const stats = {
     totalAmount: data.reduce((a, b) => a + (b.amount || 0), 0),
     totalTransactions: pagination.total || data.length,
-    succeeded: data.filter((x) => x.status === "SUCCEEDED").length,
-    failed: data.filter((x) => x.status === "FAILED").length,
+    succeeded: data.filter((x) => x.status === 'SUCCEEDED').length,
+    failed: data.filter((x) => x.status === 'FAILED').length,
     purchased: data
-      .filter((x) => x.type === "purchase")
+      .filter((x) => x.type === 'purchase')
       .reduce((a, b) => a + (b.tokens || 0), 0),
     used: data
-      .filter((x) => x.type === "deduction")
+      .filter((x) => x.type === 'deduction')
       .reduce((a, b) => a + (b.tokens || 0), 0),
   };
 
@@ -54,11 +54,14 @@ export default function PaymentsPage() {
       )}
 
       <div className="flex justify-center gap-4 mt-4">
-        <Button variant="outline" size="sm"
+        <Button
+          variant="outline"
+          size="sm"
           disabled={!pagination.hasPrev}
           onClick={() => setPage(page - 1)}
         >
-          <ArrowLeft className="w-4 h-4 mr-1" />Trước
+          <ArrowLeft className="w-4 h-4 mr-1" />
+          Trước
         </Button>
         <span>
           Trang {pagination.page} / {pagination.totalPages}
