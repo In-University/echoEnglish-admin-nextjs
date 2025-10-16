@@ -21,7 +21,7 @@ import { getAllUsers, type User } from '@/lib/userApi';
 import { toast } from 'sonner';
 import { Send, Loader2 } from 'lucide-react';
 
-export function NotificationsPage() {
+export default function NotificationsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);

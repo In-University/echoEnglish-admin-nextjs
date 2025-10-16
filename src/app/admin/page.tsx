@@ -5,11 +5,10 @@ import { useRouter } from 'next/navigation';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import UsersPage from './components/UsersPage';
-import ResourcesPage from './components/ResourcesPage';
 import PromotionsPage from './components/PromotionsPage';
 import PaymentsPage from './components/PaymentsPage';
-import { NotificationsPage } from './components/NotificationsPage';
-import { ResourcesManagementPage } from './components/ResourcesManagementPage';
+import NotificationsPage from './components/NotificationsPage';
+import ResourcesPage from './components/ResourcesPage';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('users');
@@ -39,7 +38,7 @@ export default function AdminDashboard() {
         <Header user={user} onLogout={handleLogout} />
         <main className="p-6">
           {activeTab === 'users' && <UsersPage />}
-          {activeTab === 'resources' && <ResourcesManagementPage />}
+          {activeTab === 'resources' && <ResourcesPage />}
           {activeTab === 'notifications' && <NotificationsPage />}
           {activeTab === 'promotions' && <PromotionsPage />}
           {activeTab === 'payments' && <PaymentsPage />}
