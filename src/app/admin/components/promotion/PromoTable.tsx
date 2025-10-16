@@ -12,19 +12,19 @@ export function PromoTable({ promos, loading, onEdit, onDelete }: any) {
         <table className="w-full border-collapse text-sm">
           <thead className="bg-gray-100 text-gray-700 sticky top-0 z-10">
             <tr>
-              <th className="p-3 text-left font-semibold">Mã</th>
-              <th className="p-3 text-left font-semibold">Giảm giá</th>
-              <th className="p-3 text-left font-semibold">Đã dùng</th>
-              <th className="p-3 text-left font-semibold">Giới hạn</th>
-              <th className="p-3 text-left font-semibold">Trạng thái</th>
-              <th className="p-3 text-center font-semibold">Hành động</th>
+              <th className="p-3 text-left font-semibold">Code</th>
+              <th className="p-3 text-left font-semibold">Discount</th>
+              <th className="p-3 text-left font-semibold">Used</th>
+              <th className="p-3 text-left font-semibold">Limit</th>
+              <th className="p-3 text-left font-semibold">Status</th>
+              <th className="p-3 text-center font-semibold">Actions</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
                 <td colSpan={6} className="text-center py-6 text-gray-500">
-                  Đang tải dữ liệu...
+                  Loading data...
                 </td>
               </tr>
             ) : promos.length > 0 ? (
@@ -42,11 +42,11 @@ export function PromoTable({ promos, loading, onEdit, onDelete }: any) {
                   <td className="p-3">
                     {promo.active ? (
                       <Badge className="bg-green-100 text-green-700">
-                        Đang hoạt động
+                        Active
                       </Badge>
                     ) : (
                       <Badge className="bg-red-100 text-red-700">
-                        Ngừng hoạt động
+                        Inactive
                       </Badge>
                     )}
                   </td>
@@ -74,7 +74,7 @@ export function PromoTable({ promos, loading, onEdit, onDelete }: any) {
                   colSpan={6}
                   className="text-center p-6 text-gray-500 italic"
                 >
-                  Không có mã khuyến mãi nào
+                  No promotions found
                 </td>
               </tr>
             )}

@@ -17,7 +17,13 @@ import {
   softDeleteUser,
 } from '@/lib/userApi';
 import { getRoles } from '@/lib/roleApi';
-import { User, UserFormData, PaginatedResponse, Role } from '@/types/user';
+import {
+  User,
+  UserFormData,
+  PaginatedResponse,
+  Role,
+  Gender,
+} from '@/types/user';
 
 export default function UsersPage() {
   const [users, setUsers] = useState<User[]>([]);
@@ -61,7 +67,7 @@ export default function UsersPage() {
 
   const fetchRoles = async () => {
     try {
-      const res = await getRoles();
+      const res = await getRoles('');
       setRoles(res.data);
     } catch {
       toast.error('Failed to load roles');
@@ -71,13 +77,22 @@ export default function UsersPage() {
   const handleOpenForm = (user?: User) => {
     if (user) {
       setEditingUser(user);
+      const firstRole =
+        user.roles && user.roles.length > 0 ? user.roles[0] : null;
+      const roleId =
+        firstRole && typeof firstRole === 'object'
+          ? firstRole._id
+          : typeof firstRole === 'string'
+            ? firstRole
+            : '';
+
       setFormData({
         fullName: user.fullName,
         email: user.email,
         phoneNumber: user.phoneNumber || '',
         address: user.address || '',
         gender: user.gender || '',
-        role: user.roles && user.roles.length > 0 ? user.roles[0]._id : '',
+        role: roleId,
       });
     } else {
       setEditingUser(null);
@@ -160,7 +175,9 @@ export default function UsersPage() {
                 <td className="p-2">{u.email}</td>
                 <td className="p-2">
                   {u.roles && u.roles.length > 0
-                    ? u.roles.map((r) => r.name).join(', ')
+                    ? u.roles
+                        .map((r) => (typeof r === 'object' ? r.name : r))
+                        .join(', ')
                     : '-'}
                 </td>
                 <td className="p-2 flex gap-2 justify-center">
@@ -265,7 +282,10 @@ export default function UsersPage() {
               className="border rounded p-2 w-full"
               value={formData.gender || ''}
               onChange={(e) =>
-                setFormData({ ...formData, gender: e.target.value })
+                setFormData({
+                  ...formData,
+                  gender: e.target.value as Gender | '',
+                })
               }
             >
               <option value="">-- Select Gender --</option>

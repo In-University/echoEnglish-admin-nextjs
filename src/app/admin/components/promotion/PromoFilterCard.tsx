@@ -70,7 +70,7 @@ export function PromoFilterCard({
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
         <Input
-          placeholder="Tìm mã khuyến mãi..."
+          placeholder="Search promo code..."
           value={filters.search}
           onChange={(e) =>
             setFilters((f: any) => ({ ...f, search: e.target.value }))
@@ -87,7 +87,7 @@ export function PromoFilterCard({
         >
           <CardTitle className="flex items-center gap-2 text-lg font-semibold">
             <Filter className="w-5 h-5 text-muted-foreground" />
-            Bộ lọc khuyến mãi
+            Promotion Filters
           </CardTitle>
           {showFilter ? <ChevronUp /> : <ChevronDown />}
         </CardHeader>
@@ -104,53 +104,53 @@ export function PromoFilterCard({
                 {/* ─── Dòng chọn dropdown ───────────── */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                   <FilterSelect
-                    label="Trạng thái hoạt động"
+                    label="Active Status"
                     value={filters.active}
                     onChange={(v) =>
                       setFilters((f: any) => ({ ...f, active: v }))
                     }
                     options={[
-                      { value: '', label: 'Tất cả' },
-                      { value: 'true', label: 'Đang hoạt động' },
-                      { value: 'false', label: 'Ngừng hoạt động' },
+                      { value: '', label: 'All' },
+                      { value: 'true', label: 'Active' },
+                      { value: 'false', label: 'Inactive' },
                     ]}
                   />
 
                   <FilterSelect
-                    label="Sắp xếp"
+                    label="Sort By"
                     value={filters.sort}
                     onChange={(v) =>
                       setFilters((f: any) => ({ ...f, sort: v }))
                     }
                     options={[
-                      { value: 'desc', label: 'Mới nhất' },
-                      { value: 'asc', label: 'Cũ nhất' },
+                      { value: 'desc', label: 'Newest' },
+                      { value: 'asc', label: 'Oldest' },
                     ]}
                   />
 
                   <FilterSelect
-                    label="Hiệu lực"
+                    label="Validity"
                     value={filters.status}
                     onChange={(v) =>
                       setFilters((f: any) => ({ ...f, status: v }))
                     }
                     options={[
-                      { value: '', label: 'Tất cả' },
-                      { value: 'valid', label: 'Còn hạn' },
-                      { value: 'expired', label: 'Hết hạn' },
+                      { value: '', label: 'All' },
+                      { value: 'valid', label: 'Valid' },
+                      { value: 'expired', label: 'Expired' },
                     ]}
                   />
 
                   <FilterSelect
-                    label="Tình trạng lượt dùng"
+                    label="Usage Status"
                     value={filters.availability}
                     onChange={(v) =>
                       setFilters((f: any) => ({ ...f, availability: v }))
                     }
                     options={[
-                      { value: '', label: 'Tất cả' },
-                      { value: 'available', label: 'Còn lượt' },
-                      { value: 'out', label: 'Hết lượt' },
+                      { value: '', label: 'All' },
+                      { value: 'available', label: 'Available' },
+                      { value: 'out', label: 'Out of Uses' },
                     ]}
                   />
                 </div>
@@ -159,12 +159,12 @@ export function PromoFilterCard({
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 items-end">
                   <div className="col-span-2 flex flex-col gap-2">
                     <Label className="font-medium text-sm">
-                      Khoảng giảm giá (%)
+                      Discount Range (%)
                     </Label>
                     <div className="flex gap-2 items-center">
                       <Input
                         type="number"
-                        placeholder="Từ"
+                        placeholder="From"
                         value={filters.minDiscount ?? ''}
                         onChange={(e) =>
                           setFilters((f: any) => ({
@@ -176,7 +176,7 @@ export function PromoFilterCard({
                       <span className="text-muted-foreground">-</span>
                       <Input
                         type="number"
-                        placeholder="Đến"
+                        placeholder="To"
                         value={filters.maxDiscount ?? ''}
                         onChange={(e) =>
                           setFilters((f: any) => ({
@@ -189,9 +189,9 @@ export function PromoFilterCard({
                   </div>
 
                   <div className="flex gap-3 lg:col-span-2 justify-end">
-                    <Button onClick={reload}>Áp dụng</Button>
+                    <Button onClick={reload}>Apply</Button>
                     <Button variant="outline" onClick={handleReset}>
-                      Làm mới
+                      Reset
                     </Button>
                   </div>
                 </div>

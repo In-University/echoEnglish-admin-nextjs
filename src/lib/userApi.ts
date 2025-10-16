@@ -1,6 +1,17 @@
 import api from './api';
 import { Response } from '@/types/response';
 
+export interface User {
+  _id: string;
+  email: string;
+  fullName: string;
+}
+
+export const getAllUsers = async (): Promise<User[]> => {
+  const res = await api.get(`/users/all`);
+  return res.data.data;
+};
+
 export const getUsers = async (
   page: number,
   limit: number,

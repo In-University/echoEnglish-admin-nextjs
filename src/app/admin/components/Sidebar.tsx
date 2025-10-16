@@ -1,5 +1,5 @@
 'use client';
-import { Home, Users, Gift, CreditCard } from 'lucide-react';
+import { Home, Users, Gift, CreditCard, Bell, FileText } from 'lucide-react';
 
 interface SidebarProps {
   activeTab: string;
@@ -8,8 +8,9 @@ interface SidebarProps {
 
 export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   const tabs = [
-    { key: 'users', label: 'User', icon: <Users size={18} /> },
-    { key: 'resources', label: 'Resource', icon: <Home size={18} /> },
+    { key: 'users', label: 'Users', icon: <Users size={18} /> },
+    { key: 'resources', label: 'Resources', icon: <FileText size={18} /> },
+    { key: 'notifications', label: 'Notifications', icon: <Bell size={18} /> },
     { key: 'promotions', label: 'Promotions', icon: <Gift size={18} /> },
     { key: 'payments', label: 'Payments', icon: <CreditCard size={18} /> },
   ];

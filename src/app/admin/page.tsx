@@ -8,6 +8,8 @@ import UsersPage from './components/UsersPage';
 import ResourcesPage from './components/ResourcesPage';
 import PromotionsPage from './components/PromotionsPage';
 import PaymentsPage from './components/PaymentsPage';
+import { NotificationsPage } from './components/NotificationsPage';
+import { ResourcesManagementPage } from './components/ResourcesManagementPage';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('users');
@@ -37,7 +39,8 @@ export default function AdminDashboard() {
         <Header user={user} onLogout={handleLogout} />
         <main className="p-6">
           {activeTab === 'users' && <UsersPage />}
-          {activeTab === 'resources' && <ResourcesPage />}
+          {activeTab === 'resources' && <ResourcesManagementPage />}
+          {activeTab === 'notifications' && <NotificationsPage />}
           {activeTab === 'promotions' && <PromotionsPage />}
           {activeTab === 'payments' && <PaymentsPage />}
         </main>

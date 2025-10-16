@@ -46,13 +46,13 @@ export function PromoDialogForm({ open, setOpen, editingPromo, onSave }: any) {
       <DialogContent className="max-w-md rounded-2xl">
         <DialogHeader>
           <DialogTitle>
-            {editingPromo ? 'Cập nhật khuyến mãi' : 'Tạo khuyến mãi mới'}
+            {editingPromo ? 'Update Promotion' : 'Create New Promotion'}
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-5 pt-2">
           <div className="flex flex-col gap-2">
-            <Label className="font-medium">Mã khuyến mãi</Label>
+            <Label className="font-medium">Promo Code</Label>
             <Input
               value={form.code}
               onChange={(e) => setForm({ ...form, code: e.target.value })}
@@ -60,7 +60,7 @@ export function PromoDialogForm({ open, setOpen, editingPromo, onSave }: any) {
           </div>
 
           <div className="flex flex-col gap-2">
-            <Label className="font-medium">Giảm giá (%)</Label>
+            <Label className="font-medium">Discount (%)</Label>
             <Input
               type="number"
               value={form.discount}
@@ -71,7 +71,7 @@ export function PromoDialogForm({ open, setOpen, editingPromo, onSave }: any) {
           </div>
 
           <div className="flex flex-col gap-2">
-            <Label className="font-medium">Giới hạn sử dụng</Label>
+            <Label className="font-medium">Usage Limit</Label>
             <Input
               type="number"
               value={form.usageLimit}
@@ -82,7 +82,7 @@ export function PromoDialogForm({ open, setOpen, editingPromo, onSave }: any) {
           </div>
 
           <div className="flex flex-col gap-2">
-            <Label className="font-medium">Ngày hết hạn</Label>
+            <Label className="font-medium">Expiration Date</Label>
             <div className="relative">
               <Calendar className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
               <Input
@@ -103,15 +103,15 @@ export function PromoDialogForm({ open, setOpen, editingPromo, onSave }: any) {
               onChange={(e) => setForm({ ...form, active: e.target.checked })}
               className="h-4 w-4 accent-primary"
             />
-            <Label>Đang hoạt động</Label>
+            <Label>Active</Label>
           </div>
 
           <div className="flex justify-end gap-3 pt-2">
             <Button variant="outline" onClick={() => setOpen(false)}>
-              Huỷ
+              Cancel
             </Button>
             <Button onClick={() => onSave(form)}>
-              {editingPromo ? 'Lưu thay đổi' : 'Tạo mới'}
+              {editingPromo ? 'Save Changes' : 'Create'}
             </Button>
           </div>
         </div>

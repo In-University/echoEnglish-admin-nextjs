@@ -45,7 +45,7 @@ export default function PromotionsPage() {
       setPromos(result.data || []);
       setTotalPages(result.pagination?.totalPages || 1);
     } catch {
-      toast.error('Không thể tải danh sách khuyến mãi');
+      toast.error('Failed to load promotions');
     } finally {
       setLoading(false);
     }
@@ -67,33 +67,35 @@ export default function PromotionsPage() {
 
       if (editingPromo) {
         await updatePromo(editingPromo._id!, payload);
-        toast.success('Đã cập nhật khuyến mãi');
+        toast.success('Promotion updated successfully');
       } else {
         await createPromo(payload);
-        toast.success('Đã tạo khuyến mãi mới');
+        toast.success('Promotion created successfully');
       }
 
       setOpenDialog(false);
       fetchPromos();
     } catch {
-      toast.error('Lưu thất bại');
+      toast.error('Failed to save promotion');
     }
   };
 
   const handleDelete = async (id: string) => {
     try {
       await deletePromo(id);
-      toast.success('Đã xoá thành công');
+      toast.success('Promotion deleted successfully');
       fetchPromos();
     } catch {
-      toast.error('Xoá thất bại');
+      toast.error('Failed to delete promotion');
     }
   };
 
   return (
     <div className="p-8 space-y-6 bg-gray-50 min-h-screen">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">Quản lý khuyến mãi</h2>
+        <h2 className="text-2xl font-bold text-gray-800">
+          Promotion Management
+        </h2>
         <Button
           className="bg-primary text-white"
           onClick={() => {
@@ -101,7 +103,7 @@ export default function PromotionsPage() {
             setOpenDialog(true);
           }}
         >
-          <Plus className="w-4 h-4 mr-1" /> Tạo mã giảm giá
+          <Plus className="w-4 h-4 mr-1" /> Create Promo Code
         </Button>
       </div>
 
@@ -129,10 +131,10 @@ export default function PromotionsPage() {
           disabled={page === 1}
           onClick={() => setPage((p) => Math.max(1, p - 1))}
         >
-          <ArrowLeft className="w-4 h-4 mr-1" /> Trước
+          <ArrowLeft className="w-4 h-4 mr-1" /> Previous
         </Button>
         <span className="text-gray-600 text-sm">
-          Trang {page}/{totalPages}
+          Page {page}/{totalPages}
         </span>
         <Button
           variant="outline"
@@ -140,7 +142,7 @@ export default function PromotionsPage() {
           disabled={page === totalPages}
           onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
         >
-          Sau <ArrowRight className="w-4 h-4 ml-1" />
+          Next <ArrowRight className="w-4 h-4 ml-1" />
         </Button>
       </div>
 
