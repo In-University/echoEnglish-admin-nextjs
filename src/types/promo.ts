@@ -13,7 +13,7 @@ export interface PromoCode {
 }
 
 /**
- * Dữ liệu dùng cho form tạo / chỉnh sửa mã giảm giá
+ * Data used for create / edit promo code form
  */
 export interface PromoFormData {
   code: string;

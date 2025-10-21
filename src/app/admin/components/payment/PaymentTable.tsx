@@ -8,7 +8,7 @@ import {
   CheckCircle2,
   XCircle,
 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge'; // nếu bạn chưa có component Badge thì mình có thể gửi luôn
+import { Badge } from '@/components/ui/badge'; // if you don't have the Badge component, I can provide it
 
 interface PaymentTableProps {
   data: any[];

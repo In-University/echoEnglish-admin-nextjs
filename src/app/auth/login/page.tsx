@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import api from '@/lib/api';
 import { useRouter } from 'next/navigation';
+import { login } from '@/lib/authApi';
+import { toast } from 'sonner';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -16,15 +17,20 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
     try {
-      const res = await api.post('/auth/login', { email, password });
-      const { access_token, user } = res.data.data;
+      const response = await login({ email, password });
+      const { access_token, user } = response.data;
 
       localStorage.setItem('access_token', access_token);
       localStorage.setItem('user', JSON.stringify(user));
+      
+      toast.success(response.message || 'Login successful!');
+      
       router.push('/admin');
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.message || 'Đăng nhập thất bại');
+      const errorMessage = err.response?.data?.message || 'Đăng nhập thất bại';
+      setError(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
@@ -43,7 +49,7 @@ export default function LoginPage() {
             Welcome Back 👋
           </h1>
           <p className="text-gray-500 text-sm mt-2">
-            Đăng nhập để tiếp tục truy cập hệ thống
+            Sign in to continue accessing the system
           </p>
         </div>
 
@@ -93,13 +99,22 @@ export default function LoginPage() {
             Đăng nhập
           </Button>
 
-          <div className="text-center mt-4">
+          <div className="text-center mt-4 space-y-2">
             <a
               href="/auth/forgot-password"
               className="text-sm text-indigo-500 hover:underline hover:text-indigo-600 transition-colors"
             >
-              Quên mật khẩu?
+              Forgot password?
             </a>
+            <div>
+              <span className="text-sm text-gray-500">Don't have an account? </span>
+              <a
+                href="/auth/register"
+                className="text-sm text-indigo-500 hover:underline hover:text-indigo-600 transition-colors"
+              >
+                Register now
+              </a>
+            </div>
           </div>
         </form>
       </div>
