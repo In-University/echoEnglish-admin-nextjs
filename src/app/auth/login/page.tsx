@@ -107,7 +107,7 @@ export default function LoginPage() {
               Forgot password?
             </a>
             <div>
-              <span className="text-sm text-gray-500">Don't have an account? </span>
+              <span className="text-sm text-gray-500">Don&apos;t have an account? </span>
               <a
                 href="/auth/register"
                 className="text-sm text-indigo-500 hover:underline hover:text-indigo-600 transition-colors"

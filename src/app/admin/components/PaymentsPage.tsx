@@ -43,8 +43,13 @@ export default function PaymentsPage() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Payment Management</h1>
+    <div className="p-8 space-y-6 bg-gray-50 min-h-screen">
+      <div>
+        <h1 className="text-3xl font-bold">Payment Management</h1>
+        <p className="text-muted-foreground mt-1">
+          Manage transactions and payment records
+        </p>
+      </div>
       <PaymentStats {...stats} />
       <PaymentFilters onFilter={setFilters} />
       {loading ? (
@@ -53,7 +58,7 @@ export default function PaymentsPage() {
         <PaymentTable data={data} />
       )}
 
-      <div className="flex justify-center gap-4 mt-4">
+      <div className="flex justify-center gap-4">
         <Button
           variant="outline"
           size="sm"

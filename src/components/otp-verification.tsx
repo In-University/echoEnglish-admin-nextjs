@@ -187,7 +187,7 @@ export const OTPVerification = ({
         {/* Resend section */}
         <div className="text-center space-y-3">
           <p className="text-sm text-gray-600">
-            Didn't receive the code?
+            Didn&apos;t receive the code?
           </p>
           <Button
             type="button"
@@ -218,7 +218,7 @@ export const OTPVerification = ({
       {/* Info box */}
       <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
         <p className="text-xs text-blue-700">
-          <span className="font-semibold">💡 Tip:</span> Check your spam folder if you don't see the email.
+          <span className="font-semibold">💡 Tip:</span> Check your spam folder if you don&apos;t see the email.
         </p>
       </div>
     </div>

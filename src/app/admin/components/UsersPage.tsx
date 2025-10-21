@@ -144,13 +144,18 @@ export default function UsersPage() {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">User Management</h2>
+    <div className="p-8 space-y-6 bg-gray-50 min-h-screen">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold">User Management</h1>
+          <p className="text-muted-foreground mt-1">
+            Manage system users and their roles
+          </p>
+        </div>
         <Button onClick={() => handleOpenForm()}>+ Add User</Button>
       </div>
 
-      <div className="flex items-center gap-2 mb-4">
+      <div className="flex items-center gap-2">
         <Input
           placeholder="Search by name or email..."
           value={search}

@@ -8,6 +8,7 @@ interface SidebarProps {
 
 export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   const tabs = [
+    { key: 'dashboard', label: 'Dashboard', icon: <Home size={18} /> },
     { key: 'users', label: 'Users', icon: <Users size={18} /> },
     { key: 'resources', label: 'Resources', icon: <FileText size={18} /> },
     { key: 'notifications', label: 'Notifications', icon: <Bell size={18} /> },
@@ -17,7 +18,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
 
   return (
     <aside className="w-64 bg-gradient-to-b from-gray-50 to-white shadow-lg border-r border-gray-200 flex flex-col h-screen">
-      <div className="p-6 text-2xl font-bold text-blue-600 bg-white border-b border-gray-200 flex items-center">
+      <div className="h-[69px] p-4 text-2xl font-bold text-blue-600 bg-white border-b border-gray-200 flex items-center">
         <span className="mr-2">🌐</span> Echo English
       </div>
       <nav className="flex-1 p-4 space-y-2">

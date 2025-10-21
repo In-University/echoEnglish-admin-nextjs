@@ -9,6 +9,7 @@ import PromotionsPage from './components/PromotionsPage';
 import PaymentsPage from './components/PaymentsPage';
 import NotificationsPage from './components/NotificationsPage';
 import ResourcesPage from './components/ResourcesPage';
+import { AdminDashboard as Dashboard } from './components/dashboard/components/AdminDashboard';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('users');
@@ -32,16 +33,19 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-gray-100 w-full">
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-w-0">
         <Header user={user} onLogout={handleLogout} />
-        <main className="p-6">
-          {activeTab === 'users' && <UsersPage />}
-          {activeTab === 'resources' && <ResourcesPage />}
-          {activeTab === 'notifications' && <NotificationsPage />}
-          {activeTab === 'promotions' && <PromotionsPage />}
-          {activeTab === 'payments' && <PaymentsPage />}
+        <main className="flex-1 overflow-hidden">
+          <div className="h-full w-full overflow-y-auto">
+            {activeTab === 'dashboard' && <Dashboard />}
+            {activeTab === 'users' && <UsersPage />}
+            {activeTab === 'resources' && <ResourcesPage />}
+            {activeTab === 'notifications' && <NotificationsPage />}
+            {activeTab === 'promotions' && <PromotionsPage />}
+            {activeTab === 'payments' && <PaymentsPage />}
+          </div>
         </main>
       </div>
     </div>
